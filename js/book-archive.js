@@ -2,6 +2,14 @@
 const searchBook = () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
+    // display spinner 
+    toggleSpinner('block');
+
+    // Remove previous search result 
+    const searchResult = document.getElementById('search-result');
+    searchResult.textContent = '';
+    const totalDisplaySearchResult = document.getElementById('massage');
+    totalDisplaySearchResult.innerText = '';
 
     // Error massage 
     const errorMassage = document.getElementById('massage');
@@ -11,10 +19,11 @@ const searchBook = () => {
         const h5 = document.createElement('h5');
         h5.innerText = 'Please input a book name';
         errorMassage.appendChild(h5);
+        toggleSpinner('none');
 
         // Remove previous search result 
-        const searchResult = document.getElementById('search-result');
-        searchResult.textContent = '';
+        // const searchResult = document.getElementById('search-result');
+        // searchResult.textContent = '';
     }
     else {
 
@@ -26,17 +35,23 @@ const searchBook = () => {
     // Clear search field 
     searchField.value = '';
 }
+
+// toggle Spinner
+const toggleSpinner = displayStyle => {
+    document.getElementById('spinner').style.display = displayStyle;
+} 
 const showTotalSearchResult = (result) => {
     const totalDisplaySearchResult = document.getElementById('massage');
-    totalDisplaySearchResult.innerText = '';
+    // totalDisplaySearchResult.innerText = '';
     if (result.numFound === 0) {
         const h5 = document.createElement('h5');
         h5.innerText = `No result found (${result.numFound})`;
         totalDisplaySearchResult.appendChild(h5);
+        toggleSpinner('none');
 
         // Remove previous search result 
-        const searchResult = document.getElementById('search-result');
-        searchResult.textContent = '';
+        // const searchResult = document.getElementById('search-result');
+        // searchResult.textContent = '';
     }
     else {
         const h5 = document.createElement('h5');
@@ -67,4 +82,5 @@ const displaySearchResult = books => {
         `;
         searchResult.appendChild(div);
     });
-};
+    toggleSpinner('none');
+}
