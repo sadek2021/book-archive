@@ -1,9 +1,8 @@
-// Function 
-// **********
+// Search book
 const searchBook = () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
-    
+
     // Error massage 
     const errorMassage = document.getElementById('massage');
     errorMassage.innerText = '';
@@ -13,18 +12,19 @@ const searchBook = () => {
         h5.innerText = 'Please input a book name';
         errorMassage.appendChild(h5);
 
-         // Remove previous data 
-         const searchResult = document.getElementById('search-result');
-         searchResult.textContent = '';
+        // Remove previous search result 
+        const searchResult = document.getElementById('search-result');
+        searchResult.textContent = '';
     }
     else {
-        const url = `http://openlibrary.org/search.json?q=${searchText}`;
+
+        const url = `https://openlibrary.org/search.json?q=${searchText}`;
         fetch(url)
             .then(res => res.json())
             .then(data => showTotalSearchResult(data));
     }
     // Clear search field 
-    searchField.value = '';   
+    searchField.value = '';
 }
 const showTotalSearchResult = (result) => {
     const totalDisplaySearchResult = document.getElementById('massage');
@@ -33,7 +33,8 @@ const showTotalSearchResult = (result) => {
         const h5 = document.createElement('h5');
         h5.innerText = `No result found (${result.numFound})`;
         totalDisplaySearchResult.appendChild(h5);
-        // Remove previous data 
+
+        // Remove previous search result 
         const searchResult = document.getElementById('search-result');
         searchResult.textContent = '';
     }
@@ -41,11 +42,13 @@ const showTotalSearchResult = (result) => {
         const h5 = document.createElement('h5');
         h5.innerText = `Total Result Found (${result.numFound})`;
         totalDisplaySearchResult.appendChild(h5);
-        displaySearchResult(result.docs.slice(0, 50));
+        displaySearchResult(result.docs.slice(0, 30));
     }
 }
+// Display searching value 
 const displaySearchResult = books => {
     const searchResult = document.getElementById('search-result');
+
     // Clear previous search result 
     searchResult.textContent = '';
     books.forEach(book => {
